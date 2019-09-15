@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GameNet:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GameNet_jar</output-path>
+    <root id="archive" name="GameNet.jar">
+      <element id="module-output" name="GameNet" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/spigot.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
