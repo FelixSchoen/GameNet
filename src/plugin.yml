@@ -1,0 +1,5 @@
+name: GameNet
+version: 0.1
+author: Der Boi and Damn Boi
+main: com.schoen.gamenet.GameNet
+api-version: 1.14
