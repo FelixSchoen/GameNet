@@ -33,7 +33,9 @@ public class GameNet extends JavaPlugin {
      * Registers all commands.
      */
     private void registerCommands() {
-        this.getCommand("warp").setExecutor(new WarpCommand(this));
+        WarpCommand warpCommand = new WarpCommand(this);
+        this.getCommand("warp").setExecutor(warpCommand);
+        this.getCommand("warp").setTabCompleter(warpCommand);
     }
 
     /**

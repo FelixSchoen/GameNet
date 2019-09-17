@@ -6,14 +6,16 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class WarpCommand implements CommandExecutor {
+public class WarpCommand implements CommandExecutor, TabCompleter {
 
     private GameNet plugin;
     private FileConfiguration config;
@@ -46,16 +48,11 @@ public class WarpCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("list")) {
                 Utility.sendHeader(p, config.getString("strings.WarpCommand.your_warps"));
 
-                List<String> list = new ArrayList<>();
-
-                for (String s : warps.getConfigurationSection(p.getUniqueId().toString()).getKeys(false)) {
-                    list.add(s);
-                }
+                List<String> list = this.getWarpNames(warps, p);
 
                 if (list.size() == 0)
                     p.sendMessage(config.getString("strings.WarpCommand.no_warps"));
                 else {
-                    Collections.sort(list);
                     int i = 1;
                     for (String s : list) {
                         p.sendMessage(i + ". " + s);
@@ -64,8 +61,7 @@ public class WarpCommand implements CommandExecutor {
                 }
 
                 return true;
-            }
-            else this.gotoWarp(args[0], warps, p);
+            } else this.gotoWarp(args[0], warps, p);
             return true;
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("set")) {
@@ -113,6 +109,36 @@ public class WarpCommand implements CommandExecutor {
         return false;
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            return null;
+        }
+
+        Player p = (Player) sender;
+        List<String> completions = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        FileConfiguration warps = Utility.loadYml(plugin, WARP_FILENAME);
+
+        if (args.length == 1) {
+            list.add("set");
+            list.add("delete");
+            list.add("goto");
+            list.add("list");
+            StringUtil.copyPartialMatches(args[0], list, completions);
+            return completions;
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("goto")
+                    || args[0].equalsIgnoreCase("go") || args[0].equalsIgnoreCase("to")) {
+                list.addAll(this.getWarpNames(warps, p));
+                StringUtil.copyPartialMatches(args[1], list, completions);
+                return completions;
+            }
+        }
+
+        return null;
+    }
+
     private void gotoWarp(String name, FileConfiguration warps, Player p) {
         if (warps.get(p.getUniqueId().toString() + "." + name) == null) {
             p.sendMessage(config.getString("strings.WarpCommand.warp_not_exist").replace("<warp>", name));
@@ -128,6 +154,18 @@ public class WarpCommand implements CommandExecutor {
         p.teleport(location);
 
         p.sendMessage(config.getString("strings.WarpCommand.warp_goto").replace("<warp>", name));
+    }
+
+    private List<String> getWarpNames(FileConfiguration warps, Player p) {
+        List<String> list = new ArrayList<>();
+
+        for (String s : warps.getConfigurationSection(p.getUniqueId().toString()).getKeys(false)) {
+            list.add(s);
+        }
+
+        Collections.sort(list);
+
+        return list;
     }
 
 }
