@@ -4,6 +4,6 @@ author: Der Boi and Damn Boi
 main: com.fschoen.gamenet.GameNet
 api-version: 1.14
 commands:
-  gwarp:
+  warp:
       description: Warp to specified warp points
       usage: /warp [to | add | delete | list] [Name]

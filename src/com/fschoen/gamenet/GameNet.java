@@ -33,7 +33,7 @@ public class GameNet extends JavaPlugin {
      * Registers all commands.
      */
     private void registerCommands() {
-        this.getCommand("gwarp").setExecutor(new WarpCommand());
+        this.getCommand("warp").setExecutor(new WarpCommand(this));
     }
 
     /**
@@ -42,8 +42,5 @@ public class GameNet extends JavaPlugin {
     private void registerListeners() {
         //TODO
     }
-
-    public static String NO_PERMISSION = "You are not permitted to execute this command.";
-    public static String ONLY_PLAYER_EXECUTE_COMMAND = "Only Players may execute this command.";
 
 }
