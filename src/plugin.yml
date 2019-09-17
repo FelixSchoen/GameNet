@@ -1,5 +1,9 @@
 name: GameNet
 version: 0.1
 author: Der Boi and Damn Boi
-main: com.schoen.gamenet.GameNet
+main: com.fschoen.gamenet.GameNet
 api-version: 1.14
+commands:
+  gwarp:
+      description: Warp to specified warp points
+      usage: /warp [to | add | delete | list] [Name]

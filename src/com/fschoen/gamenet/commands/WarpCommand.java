@@ -6,13 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class TeleportCommand implements CommandExecutor {
-
-    private GameNet main;
-
-    public TeleportCommand(GameNet main) {
-        this.main = main;
-    }
+public class WarpCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
