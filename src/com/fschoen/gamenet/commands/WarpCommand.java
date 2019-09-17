@@ -19,7 +19,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
 
     private GameNet plugin;
     private FileConfiguration config;
-    private static final String WARP_FILENAME = "warps";
+    private static final String WARP_FILENAME = "data";
 
     public WarpCommand(GameNet plugin) {
         this.plugin = plugin;
@@ -74,12 +74,12 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                warps.set(p.getUniqueId().toString() + "." + name + "." + "x", p.getLocation().getX());
-                warps.set(p.getUniqueId().toString() + "." + name + "." + "y", p.getLocation().getY());
-                warps.set(p.getUniqueId().toString() + "." + name + "." + "z", p.getLocation().getZ());
-                warps.set(p.getUniqueId().toString() + "." + name + "." + "pitch", p.getLocation().getPitch());
-                warps.set(p.getUniqueId().toString() + "." + name + "." + "yaw", p.getLocation().getYaw());
-                warps.set(p.getUniqueId().toString() + "." + name + "." + "world", p.getLocation().getWorld().getName());
+                warps.set(p.getUniqueId().toString() + ".warps." + name + "." + "x", p.getLocation().getX());
+                warps.set(p.getUniqueId().toString() + ".warps." + name + "." + "y", p.getLocation().getY());
+                warps.set(p.getUniqueId().toString() + ".warps." + name + "." + "z", p.getLocation().getZ());
+                warps.set(p.getUniqueId().toString() + ".warps." + name + "." + "pitch", p.getLocation().getPitch());
+                warps.set(p.getUniqueId().toString() + ".warps." + name + "." + "yaw", p.getLocation().getYaw());
+                warps.set(p.getUniqueId().toString() + ".warps." + name + "." + "world", p.getLocation().getWorld().getName());
                 Utility.saveYml(plugin, warps, WARP_FILENAME);
 
                 p.sendMessage(config.getString("strings.WarpCommand.warp_set").replace("<warp>", name));
@@ -87,12 +87,12 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
             } else if (args[0].equalsIgnoreCase("delete")) {
                 String name = args[1];
 
-                if (warps.get(p.getUniqueId().toString() + "." + name) == null) {
+                if (warps.get(p.getUniqueId().toString() + ".warps." + name) == null) {
                     p.sendMessage(config.getString("strings.WarpCommand.warp_not_exist").replace("<warp>", name));
                     return true;
                 }
 
-                warps.set(p.getUniqueId().toString() + "." + name, null);
+                warps.set(p.getUniqueId().toString() + ".warps." + name, null);
                 Utility.saveYml(plugin, warps, WARP_FILENAME);
 
                 p.sendMessage(config.getString("strings.WarpCommand.warp_delete").replace("<warp>", name));
@@ -140,28 +140,28 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
     }
 
     private void gotoWarp(String name, FileConfiguration warps, Player p) {
-        if (warps.get(p.getUniqueId().toString() + "." + name) == null) {
+        if (warps.get(p.getUniqueId().toString() + ".warps." + name) == null) {
             p.sendMessage(config.getString("strings.WarpCommand.warp_not_exist").replace("<warp>", name));
             return;
         }
 
         Location location = new Location(plugin.getServer().getWorld(warps.getString(p.getUniqueId().toString() + "." + name + ".world")),
-                warps.getDouble(p.getUniqueId().toString() + "." + name + ".x"),
-                warps.getDouble(p.getUniqueId().toString() + "." + name + ".y"),
-                warps.getDouble(p.getUniqueId().toString() + "." + name + ".z"),
-                (float) warps.getDouble(p.getUniqueId().toString() + "." + name + ".yaw"),
-                (float) warps.getDouble(p.getUniqueId().toString() + "." + name + ".pitch"));
+                warps.getDouble(p.getUniqueId().toString() + ".warps." + name + ".x"),
+                warps.getDouble(p.getUniqueId().toString() + ".warps." + name + ".y"),
+                warps.getDouble(p.getUniqueId().toString() + ".warps." + name + ".z"),
+                (float) warps.getDouble(p.getUniqueId().toString() + ".warps." + name + ".yaw"),
+                (float) warps.getDouble(p.getUniqueId().toString() + ".warps." + name + ".pitch"));
         p.teleport(location);
 
         p.sendMessage(config.getString("strings.WarpCommand.warp_goto").replace("<warp>", name));
     }
 
     private List<String> getWarpNames(FileConfiguration warps, Player p) {
-        List<String> list = new ArrayList<>();
 
-        for (String s : warps.getConfigurationSection(p.getUniqueId().toString()).getKeys(false)) {
-            list.add(s);
-        }
+        List<String> list;
+
+        if (warps.getConfigurationSection(p.getUniqueId().toString() + ".warps") == null) list = new ArrayList<>();
+        else list = new ArrayList<>(warps.getConfigurationSection(p.getUniqueId().toString() + ".warps").getKeys(false));
 
         Collections.sort(list);
 
