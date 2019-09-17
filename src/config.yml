@@ -2,9 +2,11 @@ strings:
   general:
     no_permission: "You are not permitted to execute this action."
     only_player_execute_command: "Only Players may execute this command."
+    name_reserved: "You cannot choose a reserved name for this action."
   WarpCommand:
     warp_set: "Warp <warp> successfully set."
     warp_delete: "Warp <warp> successfully deleted."
     warp_goto: "Warped to <warp>."
     warp_not_exist: "Warp <warp> does not exist."
     your_warps: "Your Warps"
+    no_warps: "You have no warps."

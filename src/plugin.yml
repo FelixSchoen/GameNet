@@ -6,4 +6,4 @@ api-version: 1.14
 commands:
   warp:
       description: Warp to specified warp points
-      usage: /warp [to | add | delete | list] [Name]
+      usage: /warp [to | set | delete | list] [Name]
