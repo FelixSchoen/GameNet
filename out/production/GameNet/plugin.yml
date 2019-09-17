@@ -1,0 +1,9 @@
+name: GameNet
+version: 0.1
+author: Der Boi and Damn Boi
+main: com.fschoen.gamenet.GameNet
+api-version: 1.14
+commands:
+  warp:
+      description: Warp to specified warp points
+      usage: /warp [to | set | delete | list] [Name]
