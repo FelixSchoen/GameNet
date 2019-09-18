@@ -46,8 +46,12 @@ public class Utility {
     }
 
     public static long differenceHours(long later, long earlier) {
+        return differenceMinutes(later, earlier) / 60;
+    }
+
+    public static long differenceMinutes(long later, long earlier) {
         long difference = later - earlier;
-        difference /= (1000*60*60);
+        difference /= (1000 * 60);
         return difference;
     }
 

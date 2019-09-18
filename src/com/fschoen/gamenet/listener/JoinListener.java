@@ -62,7 +62,12 @@ public class JoinListener implements Listener {
 
             // Check if player has no time remaining
             if (data.getInt(p.getUniqueId().toString() + ".timer.time") <= 0) {
-                p.kickPlayer(config.getString("strings.timer.no_time"));
+                long hours, minutes;
+                minutes = Utility.differenceMinutes(data.getLong(p.getUniqueId().toString()+".timer.timestamp")+1000*60*60*config.getInt("general.timer.refill_time"), System.currentTimeMillis());
+                hours = minutes / 60;
+                minutes -= hours*60;
+
+                p.kickPlayer(config.getString("strings.timer.no_time").replace("<time>", hours + " hours, " + minutes + " minutes"));
                 return;
             }
 

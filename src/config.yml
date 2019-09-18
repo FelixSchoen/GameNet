@@ -12,7 +12,7 @@ strings:
     only_player_execute_command: "Only Players may execute this command."
     name_reserved: "You cannot choose a reserved name for this action."
   timer:
-    no_time: "You have already used up your allotted time."
+    no_time: "You have already used up your allotted time. Time until refill: <time>."
   WarpCommand:
     warp_set: "Warp <warp> successfully set."
     warp_delete: "Warp <warp> successfully deleted."
