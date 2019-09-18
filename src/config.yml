@@ -1,8 +1,18 @@
+general:
+  timer:
+    enabled: true
+    time: 20 #In Minutes
+    refill_time: 22 #In Hours
+    max_retroactive_days: 10
+    max_proactive_days: 5
+    max_time: 180 #In Minutes
 strings:
   general:
     no_permission: "You are not permitted to execute this action."
     only_player_execute_command: "Only Players may execute this command."
     name_reserved: "You cannot choose a reserved name for this action."
+  timer:
+    no_time: "You have already used up your allotted time."
   WarpCommand:
     warp_set: "Warp <warp> successfully set."
     warp_delete: "Warp <warp> successfully deleted."

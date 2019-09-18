@@ -1,10 +1,19 @@
 package com.fschoen.gamenet;
 
-import com.fschoen.gamenet.commands.WarpCommand;
+import com.fschoen.gamenet.command.WarpCommand;
+import com.fschoen.gamenet.listener.JoinListener;
+import com.fschoen.gamenet.scheduler.TimerTask;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class GameNet extends JavaPlugin {
+
+    private List<UUID> playersToConsiderForTimer = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -12,6 +21,7 @@ public class GameNet extends JavaPlugin {
         this.setConfigDefaults(config);
         this.registerCommands();
         this.registerListeners();
+        BukkitTask task = new TimerTask(this, playersToConsiderForTimer).runTaskTimer(this, 0, 20*15);
     }
 
     @Override
@@ -42,7 +52,8 @@ public class GameNet extends JavaPlugin {
      * Registers all listeners.
      */
     private void registerListeners() {
-        //TODO
+        JoinListener joinListener = new JoinListener(this, playersToConsiderForTimer);
+        this.getServer().getPluginManager().registerEvents(joinListener, this);
     }
 
 }

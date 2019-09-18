@@ -1,4 +1,4 @@
-package com.fschoen.gamenet.commands;
+package com.fschoen.gamenet.command;
 
 import com.fschoen.gamenet.GameNet;
 import com.fschoen.gamenet.Utility;

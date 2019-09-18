@@ -45,4 +45,10 @@ public class Utility {
         p.sendMessage("--- " + ChatColor.BOLD + title + ChatColor.BOLD + " ---");
     }
 
+    public static long differenceHours(long later, long earlier) {
+        long difference = later - earlier;
+        difference /= (1000*60*60);
+        return difference;
+    }
+
 }
